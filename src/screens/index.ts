@@ -1,3 +1,4 @@
 import Home from './Home';
+import Writer from './Writer';
 
-export {Home};
+export {Home, Writer};

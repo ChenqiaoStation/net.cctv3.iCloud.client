@@ -1,9 +1,10 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {useFocusEffect} from '@react-navigation/native';
 import BottomTab from '@src/components/BottomTab';
 import {Home} from '@src/screens';
 import Debug from '@src/screens/Debug';
 import {useDip, useHomeIndicatorHeight} from '@src/utils';
-import React from 'react';
+import React, {useCallback, useRef, useState} from 'react';
 import {
   Image,
   StatusBar,
@@ -56,6 +57,17 @@ const tabs = [
 ];
 
 const App: React.FC<AppProps> = props => {
+  const {navigation} = props;
+  const [isShowPopover, setIsShowPopover] = useState(false);
+
+  useFocusEffect(
+    useCallback(() => {
+      return function () {
+        setIsShowPopover(false);
+      };
+    }, []),
+  );
+
   return (
     <View
       style={{
@@ -94,12 +106,16 @@ const App: React.FC<AppProps> = props => {
           right: 16,
         }}>
         <Popover
+          isVisible={isShowPopover}
           verticalOffset={StatusBar.currentHeight * -1}
           popoverStyle={{backgroundColor: 'transparent'}}
           from={
             <TouchableOpacity
               activeOpacity={0.88}
-              style={styles.viewFloatButton}>
+              style={styles.viewFloatButton}
+              onPress={() => {
+                setIsShowPopover(true);
+              }}>
               <Image
                 style={{
                   height: useDip(28),
@@ -119,7 +135,9 @@ const App: React.FC<AppProps> = props => {
                   alignItems: 'center',
                   marginVertical: 4,
                 }}
-                onPress={() => {}}
+                onPress={() => {
+                  navigation.navigate('Writer');
+                }}
                 key={i}>
                 <Image
                   style={{height: useDip(32), width: useDip(32)}}
