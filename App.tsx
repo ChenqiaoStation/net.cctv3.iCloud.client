@@ -2,13 +2,27 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BottomTab from '@src/components/BottomTab';
 import {Home} from '@src/screens';
 import Debug from '@src/screens/Debug';
-import {useDip} from '@src/utils';
+import {useDip, useHomeIndicatorHeight} from '@src/utils';
 import React from 'react';
-import {StyleSheet, View} from 'react-native';
+import {
+  Image,
+  StatusBar,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import Popover from 'react-native-popover-view';
 
 import {RootStacksProp} from './Stacks';
 
 const Tab = createBottomTabNavigator();
+const MENUS = [
+  {name: '笔记', value: '/', src: require('@src/images/folder_note.png')},
+  {name: '照片', value: '/', src: require('@src/images/folder_album.png')},
+  {name: '视频', value: '/', src: require('@src/images/folder_video.png')},
+  {name: '录音', value: '/', src: require('@src/images/folder_audio.png')},
+];
 interface AppProps {
   navigation: RootStacksProp;
 }
@@ -46,6 +60,7 @@ const App: React.FC<AppProps> = props => {
     <View
       style={{
         flex: 1,
+        position: 'relative',
       }}>
       <Tab.Navigator
         screenOptions={{
@@ -71,6 +86,64 @@ const App: React.FC<AppProps> = props => {
           />
         ))}
       </Tab.Navigator>
+
+      <View
+        style={{
+          position: 'absolute',
+          bottom: useHomeIndicatorHeight() + useDip(64),
+          right: 16,
+        }}>
+        <Popover
+          verticalOffset={StatusBar.currentHeight * -1}
+          popoverStyle={{backgroundColor: 'transparent'}}
+          from={
+            <TouchableOpacity
+              activeOpacity={0.88}
+              style={styles.viewFloatButton}>
+              <Image
+                style={{
+                  height: useDip(28),
+                  width: useDip(28),
+                  tintColor: 'white',
+                }}
+                source={require('@src/images/app_write.png')}
+              />
+            </TouchableOpacity>
+          }>
+          <View style={{}}>
+            {Array.from(MENUS, (_, i) => (
+              <TouchableOpacity
+                activeOpacity={0.88}
+                style={{
+                  flexDirection: 'row',
+                  alignItems: 'center',
+                  marginVertical: 4,
+                }}
+                onPress={() => {}}
+                key={i}>
+                <Image
+                  style={{height: useDip(32), width: useDip(32)}}
+                  source={_.src}
+                />
+                <View style={{width: 5}} />
+                <View
+                  style={{
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    paddingHorizontal: 6,
+                    paddingVertical: 4,
+                    backgroundColor: '#333',
+                    borderRadius: 4,
+                  }}>
+                  <Text style={{color: 'white', fontSize: useDip(14)}}>
+                    {_.name}
+                  </Text>
+                </View>
+              </TouchableOpacity>
+            ))}
+          </View>
+        </Popover>
+      </View>
     </View>
   );
 };
@@ -83,6 +156,14 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     paddingHorizontal: 12,
     borderRadius: 12,
+  },
+  viewFloatButton: {
+    height: useDip(52),
+    width: useDip(52),
+    borderRadius: useDip(26),
+    backgroundColor: '#987123',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
 });
 
