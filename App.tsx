@@ -1,5 +1,6 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import BottomTab from '@src/components/BottomTab';
+import {Home} from '@src/screens';
 import Debug from '@src/screens/Debug';
 import {useDip} from '@src/utils';
 import React from 'react';
@@ -15,13 +16,8 @@ interface AppProps {
 const tabs = [
   {
     name: '首页',
-    screen: Debug,
+    screen: Home,
     icon: require('@src/images/menu_global.png'),
-  },
-  {
-    name: '备忘',
-    screen: Debug,
-    icon: require('@src/images/menu_message.png'),
   },
   {
     name: '文件',
@@ -29,9 +25,14 @@ const tabs = [
     icon: require('@src/images/menu_book.png'),
   },
   {
-    name: '媒体',
+    name: '分享',
     screen: Debug,
-    icon: require('@src/images/menu_player.png'),
+    icon: require('@src/images/menu_share.png'),
+  },
+  {
+    name: '广场',
+    screen: Debug,
+    icon: require('@src/images/menu_message.png'),
   },
   {
     name: '我的',

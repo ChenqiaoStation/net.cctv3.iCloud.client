@@ -6,10 +6,12 @@ import {
 import * as React from 'react';
 import App from './App';
 import Debug from '@src/screens/Debug';
+import {Home} from '@src/screens';
 
 export type RootStacksParams = {
   App: undefined;
   Debug: {id: string};
+  Home: undefined;
 };
 
 const RootStack = createNativeStackNavigator<RootStacksParams>();
@@ -23,6 +25,7 @@ export default function Stacks() {
         screenOptions={{animation: 'slide_from_right', headerShown: false}}>
         <RootStack.Screen name="App" component={App} />
         <RootStack.Screen name="Debug" component={Debug} />
+        <RootStack.Screen name="Home" component={Home} />
       </RootStack.Navigator>
     </NavigationContainer>
   );
